@@ -49,15 +49,23 @@
                     android:id="@+id/main_body_placement"
                     android:layout_toEndOf="@id/after_main_decor"
                     android:background="@drawable/frame"
-                    android:layout_width="wrap_content"
+                    android:layout_width="280dp"
                     android:layout_height="match_parent">
 
-                <TextView
+               <!-- <TextView
                     android:id="@+id/hour_row_task_name"
                     tools:text="dffjfkjfkjfkjfkdjdjfkfjkjkdfdkfjdfjdf"
                     android:layout_centerInParent="true"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"/>-->
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/inner_hour_rv"
+                        tools:itemCount="3"
+                        tools:listitem="@layout/row_inner_hour"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
                 </RelativeLayout>
 
                 <View

@@ -1,13 +1,20 @@
 package com.pavelwintercompany.rur_190.presentation
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import androidx.core.os.persistableBundleOf
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pavelwintercompany.rur_190.R
 import com.pavelwintercompany.rur_190.entity.HourModel
+import com.pavelwintercompany.rur_190.utils.DateHelper
 import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.fragment_first.*
 import kotlinx.android.synthetic.main.hour_row.view.*
+import kotlinx.android.synthetic.main.row_inner_hour.view.*
 
 class HoursAdapter(var quotaList: List<HourModel>) :
     RecyclerView.Adapter<HoursAdapter.QuotaViewHolder>() {
@@ -33,10 +40,48 @@ class HoursAdapter(var quotaList: List<HourModel>) :
         fun bind(model: HourModel) {
 
             itemView.hours_time_tv.text = hoursDescribeGenerator(adapterPosition)
-            itemView.hour_row_task_name.text = model.taskDescribe
+
+                val mockHourList = arrayListOf<HourModel>()
+               // repeat(1){
+                    mockHourList.add(HourModel(
+                        "fdfdfdfgfgfgfgfgfgfgfgfgfgfgfgfgfgfgfg",
+                        1615886875166,
+                        10,
+                        "dfdfdfdfdfdf"
+                    ))
+                //}
+
+            mockHourList.add(HourModel(
+                "fdfdfdfgfgfgfgfgfgfgfgfgfgfgfgfgfgfgfg",
+                1615887118248,
+                15,
+                "dfdfdfdfdfdf"
+            ))
+
+
+
+
+            val newList = mockHourList.filter { DateHelper.formattedTime(it.taskStartDime,"hh").toInt()== position }
+
+                setList(itemView.context, itemView.inner_hour_rv, newList, itemView.width)
+
         }
 
     }
+
+
+    private fun setList(context : Context,
+                        recyclerView : RecyclerView,
+                        quotaModelList : List<HourModel>,
+                        itemWidth : Int){
+
+        with(recyclerView) {
+            adapter = InnerHourAdapter(quotaModelList, itemWidth)
+            layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+        }
+
+    }
+
 
     fun hoursDescribeGenerator(itemOrder : Int): String {
         var secondDigit = 0
