@@ -33,6 +33,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         populateDb()
+
+       // val milsec = DateHelper.millisecFromDatetime()
+
+        //val mils = milsec
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -76,7 +80,7 @@ class MainActivity : AppCompatActivity() {
         btnPositive.setOnClickListener{
             Toast.makeText(this, "C: ${pickerFrom.value} до ${pickerTo.value}", Toast.LENGTH_SHORT).show()
 
-            addNewNote(pickerTo.value-pickerFrom.value, descriptionEt.text.toString())
+            addNewNote(pickerFrom.value,pickerTo.value-pickerFrom.value, descriptionEt.text.toString())
 
             dialog.dismiss()
         }
@@ -103,13 +107,15 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun addNewNote(taskDuration : Int, decription: String){
+    fun addNewNote(taskStartTime : Int, taskDuration : Int, decription: String){
+
+       val startTime = DateHelper.millisecFromDatetime(20) + (taskDuration*60_000)
 
 GlobalScope.launch {
     getDb().hourModelDao().insertAll(
         HourModel(
             Random.nextInt(), decription,
-            354545545435, taskDuration, "fgfgfgfgg"
+            startTime, taskDuration, "fgfgfgfgg"
         )
     )
 }

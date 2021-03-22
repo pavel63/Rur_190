@@ -8,9 +8,13 @@ import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room.Room
+import com.pavelwintercompany.rur_190.database.AppDatabase
 import com.pavelwintercompany.rur_190.entity.HourModel
 import com.pavelwintercompany.rur_190.presentation.HoursAdapter
 import kotlinx.android.synthetic.main.fragment_first.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 /**
@@ -19,8 +23,8 @@ import kotlin.random.Random
 class FirstFragment : Fragment() {
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_first, container, false)
@@ -32,25 +36,50 @@ class FirstFragment : Fragment() {
         generateHourMock()
     }
 
-    fun generateHourMock(){
-        val mockHourList = arrayListOf<HourModel>()
-            repeat(24){
-                mockHourList.add(HourModel(
-                    Random.nextInt(),
-                    "fdfdfdfgfgfgfgfgfgfgfgfgfgfgfgfgfgfgfg",
-                    334434343434,
-                    34343434,
-                    "dfdfdfdfdfdf"
-                ))
+    fun generateHourMock() {
+        val mockHourList = arrayListOf<Int>()
+       var i : Int = 0
+        repeat(24) {
+            mockHourList.add(
+               i
+            )
+            i++
         }
 
-        setList(mockHourList)
+
+
+
+        //setList(mockHourList)
+
+        populateDb(mockHourList)
     }
 
-    private fun setList(quotaModelList : List<HourModel>){
+
+fun populateDb(mockhour : List<Int>){
+    GlobalScope.launch {
+        val notesDao = getDb()
+
+        notesDao.hourModelDao().insertAll(HourModel(Random.nextInt(), "ffgfgfgfgfggg",
+            354545545435, 5, "fgfgfgfgg"))
+        val notes: List<HourModel> = notesDao.hourModelDao().getAll()
+        setList(mockhour, notes)
+
+        val note = notes[0]
+    }
+}
+
+
+    suspend fun getDb(): AppDatabase = Room.databaseBuilder(
+        activity?.applicationContext!!,
+        AppDatabase::class.java, "database-name"
+    ).build()
+
+
+
+    private fun setList(mockInt : List<Int>, quotaModelList : List<HourModel>){
 
         with(hours_list_rv) {
-            adapter = HoursAdapter(quotaModelList)
+            adapter = HoursAdapter(mockInt, quotaModelList)
             layoutManager = LinearLayoutManager(this@FirstFragment.context)
         }
 

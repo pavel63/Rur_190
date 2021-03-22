@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.hour_row.view.*
 import kotlinx.android.synthetic.main.row_inner_hour.view.*
 import kotlin.random.Random
 
-class HoursAdapter(var quotaList: List<HourModel>) :
+class HoursAdapter(var quotaList: List<Int>, var tasksList : List<HourModel>) :
     RecyclerView.Adapter<HoursAdapter.QuotaViewHolder>() {
 
     override fun getItemCount() = quotaList.size
@@ -38,33 +38,16 @@ class HoursAdapter(var quotaList: List<HourModel>) :
         override val containerView: View?
             get() = itemView
 
-        fun bind(model: HourModel) {
+        fun bind(model: Int) {
 
             itemView.hours_time_tv.text = hoursDescribeGenerator(adapterPosition)
 
                 val mockHourList = arrayListOf<HourModel>()
-               // repeat(1){
-                    mockHourList.add(HourModel(
-                        Random.nextInt(),
-                        "fdfdfdfgfgfgfgfgfgfgfgfgfgfgfgfgfgfgfg",
-                        1615886875166,
-                        10,
-                        "dfdfdfdfdfdf"
-                    ))
-                //}
-
-            mockHourList.add(HourModel(
-                Random.nextInt(),
-                "fdfdfdfgfgfgfgfgfgfgfgfgfgfgfgfgfgfgfg",
-                1615887118248,
-                15,
-                "dfdfdfdfdfdf"
-            ))
 
 
 
 
-            val newList = mockHourList.filter { DateHelper.formattedTime(it.taskStartDime,"hh").toInt()== position }
+            val newList = tasksList.filter { DateHelper.formattedTime(it.taskStartDime,"hh").toInt()== position }
 
                 setList(itemView.context, itemView.inner_hour_rv, newList, itemView.width)
 
