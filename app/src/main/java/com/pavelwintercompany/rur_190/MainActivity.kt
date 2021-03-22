@@ -8,7 +8,18 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
+import android.widget.EditText
+import android.widget.NumberPicker
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.room.Room
+import com.pavelwintercompany.rur_190.database.AppDatabase
+import com.pavelwintercompany.rur_190.entity.HourModel
+import com.pavelwintercompany.rur_190.utils.DateHelper
+import kotlinx.android.synthetic.main.alert_dialog_layout.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,6 +31,8 @@ class MainActivity : AppCompatActivity() {
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
             createAlertDialog()
         }
+
+        populateDb()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -47,12 +60,68 @@ class MainActivity : AppCompatActivity() {
 
         val btnPositive =  dialogView?.findViewById(R.id.dialog_positive_btn) as Button
         val btnNegative =  dialogView.findViewById(R.id.dialog_negative_btn) as Button
+        val descriptionEt = dialogView.findViewById(R.id.descriptionEt) as EditText
+
+        val pickerFrom = dialogView.findViewById(R.id.minuteFrom) as NumberPicker
+        val pickerTo = dialogView.findViewById(R.id.minuteTo) as NumberPicker
+
+        pickerFrom.minValue = 0
+        pickerFrom.maxValue = 60
+
+        pickerTo.minValue = 0
+        pickerTo.maxValue = 60
 
         val dialog = builder.create()
 
-        btnPositive.setOnClickListener{}
-        btnNegative.setOnClickListener{}
+        btnPositive.setOnClickListener{
+            Toast.makeText(this, "C: ${pickerFrom.value} до ${pickerTo.value}", Toast.LENGTH_SHORT).show()
+
+            addNewNote(pickerTo.value-pickerFrom.value, descriptionEt.text.toString())
+
+            dialog.dismiss()
+        }
+
+        btnNegative.setOnClickListener{
+            dialog.dismiss()
+        }
 
         dialog.show();
+
     }
+
+
+    fun populateDb(){
+        GlobalScope.launch {
+            val notesDao = getDb()
+
+            notesDao.hourModelDao().insertAll(HourModel(Random.nextInt(), "ffgfgfgfgfggg",
+                354545545435, 5, "fgfgfgfgg"))
+            val notes: List<HourModel> = notesDao.hourModelDao().getAll()
+
+            val note = notes[0]
+        }
+    }
+
+
+    fun addNewNote(taskDuration : Int, decription: String){
+
+GlobalScope.launch {
+    getDb().hourModelDao().insertAll(
+        HourModel(
+            Random.nextInt(), decription,
+            354545545435, taskDuration, "fgfgfgfgg"
+        )
+    )
 }
+
+   val fdfd= DateHelper.formattedTime(System.currentTimeMillis(),"dd").toInt()
+
+
+    }
+
+    suspend fun getDb(): AppDatabase = Room.databaseBuilder(
+        applicationContext,
+        AppDatabase::class.java, "database-name"
+    ).build()
+}
+

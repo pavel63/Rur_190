@@ -15,6 +15,7 @@ import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.fragment_first.*
 import kotlinx.android.synthetic.main.hour_row.view.*
 import kotlinx.android.synthetic.main.row_inner_hour.view.*
+import kotlin.random.Random
 
 class HoursAdapter(var quotaList: List<HourModel>) :
     RecyclerView.Adapter<HoursAdapter.QuotaViewHolder>() {
@@ -44,6 +45,7 @@ class HoursAdapter(var quotaList: List<HourModel>) :
                 val mockHourList = arrayListOf<HourModel>()
                // repeat(1){
                     mockHourList.add(HourModel(
+                        Random.nextInt(),
                         "fdfdfdfgfgfgfgfgfgfgfgfgfgfgfgfgfgfgfg",
                         1615886875166,
                         10,
@@ -52,6 +54,7 @@ class HoursAdapter(var quotaList: List<HourModel>) :
                 //}
 
             mockHourList.add(HourModel(
+                Random.nextInt(),
                 "fdfdfdfgfgfgfgfgfgfgfgfgfgfgfgfgfgfgfg",
                 1615887118248,
                 15,

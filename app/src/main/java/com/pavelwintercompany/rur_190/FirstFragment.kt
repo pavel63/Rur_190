@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.pavelwintercompany.rur_190.entity.HourModel
 import com.pavelwintercompany.rur_190.presentation.HoursAdapter
 import kotlinx.android.synthetic.main.fragment_first.*
+import kotlin.random.Random
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -35,9 +36,10 @@ class FirstFragment : Fragment() {
         val mockHourList = arrayListOf<HourModel>()
             repeat(24){
                 mockHourList.add(HourModel(
+                    Random.nextInt(),
                     "fdfdfdfgfgfgfgfgfgfgfgfgfgfgfgfgfgfgfg",
                     334434343434,
-                    3434343434,
+                    34343434,
                     "dfdfdfdfdfdf"
                 ))
         }
