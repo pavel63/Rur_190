@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity() {
 
     fun addNewNote(taskStartTime : Int, taskDuration : Int, decription: String){
 
-       val startTime = DateHelper.millisecFromDatetime(20) + (taskDuration*60_000)
+       val startTime = DateHelper.millisecFromDatetime(12) + (taskDuration*60_000)
 
 GlobalScope.launch {
     getDb().hourModelDao().insertAll(

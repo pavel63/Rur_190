@@ -4,18 +4,13 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import androidx.core.os.persistableBundleOf
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pavelwintercompany.rur_190.R
 import com.pavelwintercompany.rur_190.entity.HourModel
 import com.pavelwintercompany.rur_190.utils.DateHelper
 import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.fragment_first.*
 import kotlinx.android.synthetic.main.hour_row.view.*
-import kotlinx.android.synthetic.main.row_inner_hour.view.*
-import kotlin.random.Random
 
 class HoursAdapter(var quotaList: List<Int>, var tasksList : List<HourModel>) :
     RecyclerView.Adapter<HoursAdapter.QuotaViewHolder>() {
@@ -30,22 +25,17 @@ class HoursAdapter(var quotaList: List<Int>, var tasksList : List<HourModel>) :
 
 
     override fun onBindViewHolder(holder: QuotaViewHolder, position: Int) {
-        holder.bind(quotaList[position])
+        holder.bind(tasksList[position])
     }
 
 
     inner class QuotaViewHolder(view: View) : RecyclerView.ViewHolder(view), LayoutContainer {
-        override val containerView: View?
+        override val containerView: View
             get() = itemView
 
-        fun bind(model: Int) {
+        fun bind(model: HourModel) {
 
             itemView.hours_time_tv.text = hoursDescribeGenerator(adapterPosition)
-
-                val mockHourList = arrayListOf<HourModel>()
-
-
-
 
             val newList = tasksList.filter { DateHelper.formattedTime(it.taskStartDime,"hh").toInt()== position }
 

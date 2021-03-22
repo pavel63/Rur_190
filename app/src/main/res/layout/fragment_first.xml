@@ -24,8 +24,13 @@
         android:layout_height="wrap_content"
         tools:listitem="@layout/hour_row"
         android:text="@string/next"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomSpace"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textview_first" />
+       <Space
+           android:id="@+id/bottomSpace"
+           app:layout_constraintBottom_toBottomOf="parent"
+           android:layout_width="match_parent"
+           android:layout_height="100dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

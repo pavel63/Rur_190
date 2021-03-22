@@ -10,6 +10,7 @@ import com.pavelwintercompany.rur_190.R
 import com.pavelwintercompany.rur_190.entity.HourModel
 import com.pavelwintercompany.rur_190.extensions.dpToPx
 import com.pavelwintercompany.rur_190.utils.DateHelper
+import com.squareup.picasso.Picasso
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.row_inner_hour.view.*
 
@@ -36,7 +37,7 @@ class InnerHourAdapter(var quotaList: List<HourModel>, var itemWidth: Int) :
 
 
     inner class QuotaViewHolder(view: View) : RecyclerView.ViewHolder(view), LayoutContainer {
-        override val containerView: View?
+        override val containerView: View
             get() = itemView
 
         fun bind(model: HourModel) {
@@ -61,10 +62,13 @@ class InnerHourAdapter(var quotaList: List<HourModel>, var itemWidth: Int) :
                 widthPerMinute.toInt(),
                 ViewGroup.LayoutParams.WRAP_CONTENT
             ))
+            // TODO подисправить, а то как адаптер растягивается а то за пределы выходит
             layoutParams.setMargins(
                 ((280.dpToPx().toDouble() / 60.0).toInt() - fm).toInt(), 0, 0, 0
             )
             itemView.inner_item_rv_main.layoutParams = layoutParams
+
+            Picasso.get().load("https://pbs.twimg.com/media/D18BTryXcAAvBAm.jpg:large").into(itemView.inner_hour_iv);
         }
 
     }
