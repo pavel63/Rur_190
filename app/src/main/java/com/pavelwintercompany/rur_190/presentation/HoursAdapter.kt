@@ -25,7 +25,7 @@ class HoursAdapter(var quotaList: List<Int>, var tasksList : List<HourModel>) :
 
 
     override fun onBindViewHolder(holder: QuotaViewHolder, position: Int) {
-        holder.bind(tasksList[position])
+        holder.bind(quotaList[position])
     }
 
 
@@ -33,7 +33,7 @@ class HoursAdapter(var quotaList: List<Int>, var tasksList : List<HourModel>) :
         override val containerView: View
             get() = itemView
 
-        fun bind(model: HourModel) {
+        fun bind(model: Int) {
 
             itemView.hours_time_tv.text = hoursDescribeGenerator(adapterPosition)
 

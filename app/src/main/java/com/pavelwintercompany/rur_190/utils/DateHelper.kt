@@ -15,7 +15,7 @@ fun formattedTime(dateInMillisec: Long, formatString: String): String{
     fun millisecFromDatetime(hour: Int): Long{
 
         val calendar = Calendar.getInstance()
-        calendar[2021, 4, 23, hour, 0] = 0
+        calendar[2021, 4, 25, hour, 0] = 0
         return calendar.timeInMillis
 
     }
