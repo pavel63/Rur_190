@@ -6,27 +6,33 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.pavelwintercompany.rur_190.R
+import com.pavelwintercompany.rur_190.databinding.RowInnerHourBinding
 import com.pavelwintercompany.rur_190.entity.HourModel
 import com.pavelwintercompany.rur_190.extensions.dpToPx
 import com.pavelwintercompany.rur_190.utils.DateHelper
 import com.squareup.picasso.Picasso
-import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.row_inner_hour.view.*
 
 
 class InnerHourAdapter(var quotaList: List<HourModel>, var itemWidth: Int) :
     RecyclerView.Adapter<InnerHourAdapter.QuotaViewHolder>() {
 
+    private lateinit var binding: RowInnerHourBinding
     override fun getItemCount() = quotaList.size
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuotaViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(
+        RowInnerHourBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+
+        binding = RowInnerHourBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val view = binding.root
+        return QuotaViewHolder(view)
+
+        /*val view = LayoutInflater.from(parent.context).inflate(
             R.layout.row_inner_hour,
             parent,
             false
         )
-        return QuotaViewHolder(view)
+        return QuotaViewHolder(view)*/
     }
 
 
@@ -34,9 +40,9 @@ class InnerHourAdapter(var quotaList: List<HourModel>, var itemWidth: Int) :
         holder.bind(quotaList[position])
     }
 
-    inner class QuotaViewHolder(view: View) : RecyclerView.ViewHolder(view), LayoutContainer {
-        override val containerView: View
-            get() = itemView
+    inner class QuotaViewHolder(view: View) : RecyclerView.ViewHolder(view)/*, LayoutContainer*/ {
+      //  override val containerView: View
+        //    get() = itemView
 
         fun bind(model: HourModel) {
 
@@ -46,7 +52,7 @@ class InnerHourAdapter(var quotaList: List<HourModel>, var itemWidth: Int) :
             val finalMargin = DateHelper.formattedTime(model.taskStartDime,"mm").toInt()
             val fm = finalMargin-rest
 
-            itemView.inner_hour_tv.text = model.taskDescribe
+            binding.innerHourTv.text = model.taskDescribe
             val layoutParams = (FrameLayout.LayoutParams(
                 widthPerMinute.toInt(),
                 ViewGroup.LayoutParams.WRAP_CONTENT
@@ -55,9 +61,9 @@ class InnerHourAdapter(var quotaList: List<HourModel>, var itemWidth: Int) :
             layoutParams.setMargins(
                 ((280.dpToPx().toDouble() / 60.0).toInt() - fm).toInt(), 0, 0, 0
             )
-            itemView.inner_item_rv_main.layoutParams = layoutParams
+            binding.innerItemRvMain.layoutParams = layoutParams
 
-            Picasso.get().load("https://pbs.twimg.com/media/D18BTryXcAAvBAm.jpg:large").into(itemView.inner_hour_iv);
+            Picasso.get().load("https://pbs.twimg.com/media/D18BTryXcAAvBAm.jpg:large").into(binding.innerHourIv);
         }
 
     }

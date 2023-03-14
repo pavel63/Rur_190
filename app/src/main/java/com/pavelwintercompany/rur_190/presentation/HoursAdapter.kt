@@ -7,20 +7,25 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pavelwintercompany.rur_190.R
+import com.pavelwintercompany.rur_190.databinding.HourRowBinding
 import com.pavelwintercompany.rur_190.entity.HourModel
 import com.pavelwintercompany.rur_190.utils.DateHelper
-import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.hour_row.view.*
 
 class HoursAdapter(var quotaList: List<Int>, var tasksList : List<HourModel>) :
-    RecyclerView.Adapter<HoursAdapter.QuotaViewHolder>() {
+    RecyclerView.Adapter<HoursAdapter.QuotaViewHolder>(){
+
+    lateinit var binding: HourRowBinding
 
     override fun getItemCount() = quotaList.size
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuotaViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.hour_row, parent, false)
+
+        binding = HourRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val view = binding.root
         return QuotaViewHolder(view)
+       // val view = LayoutInflater.from(parent.context).inflate(R.layout.hour_row, parent, false)
+        //return QuotaViewHolder(view)
     }
 
 
@@ -29,17 +34,19 @@ class HoursAdapter(var quotaList: List<Int>, var tasksList : List<HourModel>) :
     }
 
 
-    inner class QuotaViewHolder(view: View) : RecyclerView.ViewHolder(view), LayoutContainer {
-        override val containerView: View
-            get() = itemView
+    inner class QuotaViewHolder(view: View) : RecyclerView.ViewHolder(view)/*, LayoutContainer*/ {
+
+
+      //  override val containerView: View
+        //    get() = itemView
 
         fun bind(model: Int) {
 
-            itemView.hours_time_tv.text = hoursDescribeGenerator(adapterPosition)
+            binding.hoursTimeTv.text = hoursDescribeGenerator(adapterPosition)
 
             val newList = tasksList.filter { DateHelper.formattedTime(it.taskStartDime,"hh").toInt()== position }
 
-                setList(itemView.context, itemView.inner_hour_rv, newList, itemView.width)
+                setList(itemView.context, binding.innerHourRv, newList, itemView.width)
 
         }
 
